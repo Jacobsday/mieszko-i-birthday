@@ -3,12 +3,12 @@
   const $=selector=>document.querySelector(selector);
   const data=typeof products!=='undefined'&&Array.isArray(products)?products:[];
   const escape=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
-  const sizes=product=>product.category==='Sneakers'?['42','43','44','45']:['S','M','L','XL'];
+  const sizes=product=>product.sizes||(product.category==='Sneakers'?['42','43','44','45']:['S','M','L','XL']);
   const photoPath=photo=>{if(!photo)return '';if(/^(https?:|data:|\/)/i.test(photo))return photo;return photo.startsWith('assets/')?`../${photo}`:photo};
   const placeholder=(product)=>{const color=/^#[\da-f]{6}$/i.test(product.color||'')?product.color:'#c8c7bc';const rgb=[1,3,5].map(offset=>parseInt(color.slice(offset,offset+2),16));const ink=(rgb[0]*.2126+rgb[1]*.7152+rgb[2]*.0722)<130?'#efeee8':'#171715';return `<div class="photo-placeholder" style="--placeholder:${color};--placeholder-ink:${ink}"><strong>MIESZKO I</strong><small>ZDJĘCIE NIEDOSTĘPNE</small><b>✳</b></div>`};
-  const media=(product,index)=>`<div class="card-media"><span class="card-number">${String(index+1).padStart(2,'0')} / M1</span>${product.photo?`<img data-image-id="${escape(product.id)}" src="${escape(photoPath(product.photo))}" alt="Mieszko w stylizacji ${escape(product.brand)} ${escape(product.name)}" loading="lazy">`:placeholder(product)}</div>`;
+  const media=(product,index)=>`<div class="card-media"><span class="card-number">${String(index+1).padStart(2,'0')} / M1</span>${(product.packshot||product.photo)?`<img data-image-id="${escape(product.id)}" src="${escape(photoPath(product.packshot||product.photo))}" class="${product.packshot?'packshot':''}" alt="${product.packshot?'Wizualizacja produktu':'Mieszko w stylizacji'} ${escape(product.brand)} ${escape(product.name)}" loading="lazy">`:placeholder(product)}</div>`;
   function bindMedia(root){root.querySelectorAll('img[data-image-id]').forEach(image=>image.addEventListener('error',()=>{const product=data.find(item=>item.id===image.dataset.imageId);if(product){image.insertAdjacentHTML('afterend',placeholder(product));image.remove()}}))}
-  let category='all',query='',sort='featured',selectedSize='';
+  let collection=location.hash==='#mieshko-goat'?'goat':'archive',category='all',query='',sort='featured',selectedSize='';
   const storageKey='mieszko-i-variant-b-cart';
   let cart=[];
   try{const saved=JSON.parse(localStorage.getItem(storageKey)||'[]');cart=Array.isArray(saved)?saved.filter(item=>{const product=data.find(p=>p.id===item.id);return product&&sizes(product).includes(item.size)}).map(item=>({id:item.id,size:item.size,qty:Math.min(9,Math.max(1,Number(item.qty)||1))})):[]}catch{}
@@ -16,17 +16,17 @@
   const categories=['all',...new Set(data.map(product=>product.category).filter(Boolean))];
   $('#categories').innerHTML=categories.map(item=>`<button type="button" data-category="${escape(item)}" class="${item==='all'?'active':''}" aria-pressed="${item==='all'}">${item==='all'?'Wszystko':escape(item)}</button>`).join('');
   function render(){
-    let list=data.filter(product=>(category==='all'||product.category===category)&&`${product.brand} ${product.name} ${product.edition} ${product.year} ${product.category}`.toLocaleLowerCase('pl').includes(query.toLocaleLowerCase('pl')));
+    let list=data.filter(product=>(product.collection||'archive')===collection&&(category==='all'||product.category===category)&&`${product.brand} ${product.name} ${product.edition} ${product.year} ${product.category}`.toLocaleLowerCase('pl').includes(query.toLocaleLowerCase('pl')));
     if(sort==='newest')list.sort((a,b)=>Number(b.year)-Number(a.year));
     if(sort==='oldest')list.sort((a,b)=>Number(a.year)-Number(b.year));
     if(sort==='az')list.sort((a,b)=>String(a.name).localeCompare(String(b.name),'pl'));
-    $('#resultCount').textContent=`${String(list.length).padStart(2,'0')} / ${String(data.length).padStart(2,'0')} PRODUKTÓW`;
+    $('#resultCount').textContent=`${String(list.length).padStart(2,'0')} / ${String(data.filter(p=>(p.collection||'archive')===collection).length).padStart(2,'0')} PRODUKTÓW`;
     $('#productGrid').innerHTML=list.length?list.map((product,index)=>`<button type="button" class="product-card" data-product="${escape(product.id)}" aria-label="Zobacz ${escape(product.brand)} ${escape(product.name)}">${media(product,index)}<div class="card-meta"><span>${escape(product.brand)}</span><span>${escape(product.year)}</span></div><h3>${escape(product.name)}</h3><p>${escape(product.edition)}</p><div class="card-link"><span>OBEJRZYJ PRODUKT</span><span>↗</span></div></button>`).join(''):`<div class="no-results">Nic tu nie ma.<br><button type="button" id="clearFilters">Pokaż całą kolekcję ↗</button></div>`;
     bindMedia($('#productGrid'));
     $('#productGrid').querySelectorAll('[data-product]').forEach(button=>button.addEventListener('click',()=>showProduct(button.dataset.product)));
     $('#clearFilters')?.addEventListener('click',()=>{category='all';query='';$('#search').value='';syncCategories();render()});
   }
-  function syncCategories(){document.querySelectorAll('#categories [data-category]').forEach(button=>{const active=button.dataset.category===category;button.classList.toggle('active',active);button.setAttribute('aria-pressed',String(active))})}
+  function syncCategories(){document.querySelectorAll('#categories [data-category]').forEach(button=>button.hidden=button.dataset.category!=='all'&&!data.some(p=>(p.collection||'archive')===collection&&p.category===button.dataset.category));document.querySelectorAll('#categories [data-category]').forEach(button=>{const active=button.dataset.category===category;button.classList.toggle('active',active);button.setAttribute('aria-pressed',String(active))})}
   function showProduct(id){
     const product=data.find(item=>item.id===id);if(!product)return;selectedSize='';
     const index=data.indexOf(product);
@@ -48,7 +48,7 @@
     if(!$('#cartDialog').open)$('#cartDialog').showModal();
   }
   function celebrate(){const count=cart.reduce((sum,item)=>sum+item.qty,0);$('#cartDialogBody').innerHTML=`<div class="cart-inner birthday"><div class="burst">✳</div><p class="eyebrow">M1 / ONE OF ONE</p><h2>WSZYSTKIEGO<br>NAJLEPSZEGO,<br>MIESZKO.</h2><p>Kolejny sezon należy do Ciebie.</p><small>${count} WYBRANYCH ELEMENTÓW. TO ARTYSTYCZNA SYMULACJA — BEZ ZAMÓWIENIA I PŁATNOŚCI.</small><button type="button" id="backToStore" class="primary">WRÓĆ DO KOLEKCJI ↗</button></div>`;$('#backToStore').addEventListener('click',()=>{$('#cartDialog').close();$('#catalog').scrollIntoView({behavior:'smooth'})})}
-  const info={about:['O PROJEKCIE','MIESZKO I to urodzinowy projekt artystyczny: fikcyjny sklep prezentujący wybrane wydania streetwearu. Nie jest oficjalnym sklepem ani współpracą z wymienionymi markami.'],sizes:['ROZMIARY','Ubrania: S, M, L, XL. Sneakers: EU 42, 43, 44, 45. Wybór ma charakter pokazowy. Nie podajemy wymiarów ani dostępności konkretnych egzemplarzy.'],demo:['ZAKUPY I DOSTAWA','To artystyczna symulacja sklepu. Koszyk nie tworzy zamówienia. Nie ma cen, płatności, rezerwacji ani dostawy. Finał koszyka otwiera życzenia urodzinowe.']};
+  const info={about:['O PROJEKCIE','MIESZKO I to urodzinowy projekt artystyczny: fikcyjny sklep prezentujący wybrane wydania streetwearu. Nie jest oficjalnym sklepem ani współpracą z wymienionymi markami.'],sizes:['ROZMIARY','Ubrania: S, M, L, XL. Skarpetki: 39–42 lub 43–46. Sneakers: EU 42, 43, 44, 45. Wybór ma charakter pokazowy. Nie podajemy wymiarów ani dostępności konkretnych egzemplarzy.'],demo:['ZAKUPY I DOSTAWA','To artystyczna symulacja sklepu. Koszyk nie tworzy zamówienia. Nie ma cen, płatności, rezerwacji ani dostawy. Finał koszyka otwiera życzenia urodzinowe.']};
   function showInfo(key){const [title,copy]=info[key]||info.about;$('#infoDialogBody').innerHTML=`<div class="info-inner"><p class="eyebrow">M1 / INFORMATION</p><h2>${title}</h2><p>${copy}</p><small>EDYCJA POKAZOWA / 2026</small></div>`;$('#infoDialog').showModal()}
   let toastTimer;function toast(message){const element=$('#toast');element.textContent=message;element.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>element.classList.remove('show'),2200)}
   $('#categories').addEventListener('click',event=>{const button=event.target.closest('[data-category]');if(!button)return;category=button.dataset.category;syncCategories();render()});
@@ -59,5 +59,7 @@
   $('#aboutButton').addEventListener('click',()=>showInfo('about'));
   document.querySelectorAll('[data-info]').forEach(button=>button.addEventListener('click',()=>showInfo(button.dataset.info)));
   document.querySelectorAll('dialog').forEach(dialog=>{dialog.querySelector('[data-close]').addEventListener('click',()=>dialog.close());dialog.addEventListener('click',event=>{if(event.target===dialog)dialog.close()})});
-  save();render();
+  function setCollection(value){collection=value==='goat'?'goat':'archive';category='all';query='';$('#search').value='';document.querySelectorAll('[data-collection]').forEach(button=>{const active=button.dataset.collection===collection;button.classList.toggle('active',active);button.setAttribute('aria-pressed',String(active))});$('#catalogTitle').innerHTML=collection==='goat'?'MIESHKO<br>GOAT<span>✳</span>':'THE<br>LINEUP<span>✳</span>';$('#collectionCopy').textContent=collection==='goat'?'Drop 01. 10 autorskich projektów. One of one.':'20 historycznych wydań. 20 kadrów urodzinowej kampanii Mieszka.';$('#collectionNote').textContent=collection==='goat'?'Autorska kolekcja MIESHKO GOAT. Wizualizacje produktów.':'Autorskie obrazy kampanii przedstawiają Mieszka w artystycznych interpretacjach historycznych produktów.';syncCategories();render();}
+  document.querySelectorAll('[data-collection]').forEach(button=>button.addEventListener('click',()=>{setCollection(button.dataset.collection);history.replaceState(null,'',collection==='goat'?'#mieshko-goat':'#catalog');$('#catalog').scrollIntoView({behavior:'smooth'})}));window.addEventListener('hashchange',()=>setCollection(location.hash==='#mieshko-goat'?'goat':'archive'));
+  save();setCollection(collection);
 })();

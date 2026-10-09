@@ -16,7 +16,7 @@
   <div class="ticker" aria-label="Informacja o projekcie"><div>ONE PERSON. ONE SEASON. ONE MIESZKO. <span>✳</span> BIRTHDAY EDITION / 2026 <span>✳</span> ARTYSTYCZNA SYMULACJA SKLEPU — BEZ PŁATNOŚCI</div></div>
   <header class="site-header">
     <a class="wordmark" href="#top" aria-label="MIESZKO I — strona główna">MIESZKO<span>I</span><i>®</i></a>
-    <nav class="main-nav" aria-label="Nawigacja główna"><a href="#catalog">Kolekcja</a><a href="#story">Historia</a><button type="button" id="aboutButton">Info</button></nav>
+    <nav class="main-nav" aria-label="Nawigacja główna"><a href="#catalog">Archive</a><button type="button" data-collection="goat">MIESHKO GOAT</button><a href="#story">Historia</a><button type="button" id="aboutButton">Info</button></nav>
     <div class="header-actions"><button type="button" id="searchToggle" aria-label="Otwórz wyszukiwanie">SZUKAJ <span>↗</span></button><button type="button" id="cartToggle" aria-label="Otwórz koszyk">KOSZYK <span id="cartCount">(0)</span></button></div>
   </header>
   <main id="top">
@@ -28,11 +28,11 @@
     </section>
     <section class="intro-strip"><p>Nie chodzi o sezon. <strong>Chodzi o Mieszka.</strong></p><span>ARCHIVE PICKS / PERSONAL EDITION</span></section>
     <section id="catalog" class="catalog" aria-labelledby="catalogTitle">
-      <div class="section-heading"><div><p class="eyebrow">01 / THE SELECTION</p><h2 id="catalogTitle">THE<br>LINEUP<span>✳</span></h2></div><p>20 historycznych wydań. 20 kadrów urodzinowej kampanii Mieszka.</p></div>
-      <div class="catalog-controls"><div id="categories" class="categories" role="group" aria-label="Kategorie"></div><div class="control-right"><label class="search-field"><span class="sr-only">Szukaj produktów</span><input id="search" type="search" placeholder="Szukaj w kolekcji" autocomplete="off"><span>⌕</span></label><label class="sort-label"><span class="sr-only">Sortuj produkty</span><select id="sort"><option value="featured">Kolejność kolekcji</option><option value="newest">Rok: najnowsze</option><option value="oldest">Rok: najstarsze</option><option value="az">Nazwa: A–Z</option></select></label></div></div>
+      <div class="section-heading"><div><p class="eyebrow">01 / THE SELECTION</p><h2 id="catalogTitle">THE<br>LINEUP<span>✳</span></h2></div><p id="collectionCopy">20 historycznych wydań. 20 kadrów urodzinowej kampanii Mieszka.</p></div>
+      <div class="goat-switch" role="group" aria-label="Kolekcje"><button type="button" data-collection="archive">Archive / 20</button><button type="button" data-collection="goat">MIESHKO GOAT / 10</button></div><div class="catalog-controls"><div id="categories" class="categories" role="group" aria-label="Kategorie"></div><div class="control-right"><label class="search-field"><span class="sr-only">Szukaj produktów</span><input id="search" type="search" placeholder="Szukaj w kolekcji" autocomplete="off"><span>⌕</span></label><label class="sort-label"><span class="sr-only">Sortuj produkty</span><select id="sort"><option value="featured">Kolejność kolekcji</option><option value="newest">Rok: najnowsze</option><option value="oldest">Rok: najstarsze</option><option value="az">Nazwa: A–Z</option></select></label></div></div>
       <div class="result-line"><span id="resultCount"></span><span>ŻADNYCH CEN. TYLKO STYL.</span></div>
       <div id="productGrid" class="product-grid" aria-live="polite"></div>
-      <p class="catalog-note">Autorskie obrazy kampanii przedstawiają Mieszka w artystycznych interpretacjach historycznych produktów.</p>
+      <p class="catalog-note" id="collectionNote">Autorskie obrazy kampanii przedstawiają Mieszka w artystycznych interpretacjach historycznych produktów.</p>
     </section>
     <section id="story" class="story"><div class="story-index">02 / FOR MIESZKO</div><div><h2>ONE OF<br><i>ONE.</i></h2><p>Wybrana dla Ciebie. Zbudowana wokół Twojego stylu. Ta kolekcja istnieje po to, żeby uczcić kolejny rozdział.</p><a href="#catalog">WRÓĆ DO KOLEKCJI ↗</a></div><div class="story-mark" aria-hidden="true">M1<span>✳</span></div></section>
   </main>
