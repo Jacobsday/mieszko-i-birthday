@@ -2,7 +2,7 @@ const $=s=>document.querySelector(s);const $$=s=>document.querySelectorAll(s);co
 function media(p){
   const src=p.photo||p.reference;
   const color=/^#[0-9a-f]{6}$/i.test(p.color||'')?p.color:'#8b8b84';
-  const placeholder=`<div class="placeholder" style="--piece-color:${color}" ${src?'hidden':''}><div class="placeholder-mark" aria-hidden="true">M1</div><div class="placeholder-meta"><strong>${p.brand}</strong><span>${p.name}</span><small>CAMPAIGN FRAME / PENDING</small></div></div>`;
+  const placeholder=`<div class="placeholder" style="--piece-color:${color}" ${src?'hidden':''}><div class="placeholder-mark" aria-hidden="true">M1</div><div class="placeholder-meta"><strong>${p.brand}</strong><span>${p.name}</span><small>ZDJĘCIE NIEDOSTĘPNE</small></div></div>`;
   return src?`<img class="${p.photo?'session-photo':'reference-photo'}" src="${src}" alt="${p.photo?'Wygenerowana fotografia Mieszka w stylizacji':'Fotografia referencyjna:'} ${p.brand} ${p.name}" loading="lazy" onerror="this.hidden=true;this.nextElementSibling.hidden=false">${placeholder}`:placeholder;
 }
 let cartItems=[];try{cartItems=JSON.parse(localStorage.getItem('mieszko-set')||'[]').filter(x=>x&&products.some(p=>p.id===x.id)&&sizes(products.find(p=>p.id===x.id)).includes(x.size)).map(x=>({...x,qty:Math.min(9,Math.max(1,Number(x.qty)||1))}));}catch{}
