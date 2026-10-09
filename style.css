@@ -93,3 +93,20 @@ header nav a:hover{text-decoration:underline;text-underline-offset:4px}
   .landing-finale-copy{width:100%;padding-left:9%}
   #collection .collection-intro h2{font-size:24px}
 }
+
+.landing-header{justify-content:space-between}
+.landing-header nav{flex:0 1 auto;gap:34px}
+.landing-footer{grid-template-columns:1.3fr .8fr 1.2fr}
+.landing-footer a:not(.logo){display:block;width:max-content;margin:10px 0;color:#777;font-size:10px}
+.landing-footer a:not(.logo):hover{text-decoration:underline;text-underline-offset:4px}
+.landing-intro p{font-size:clamp(48px,5.5vw,86px)}
+@media(max-width:680px){
+  .landing-header{gap:12px}
+  .landing-header nav{display:flex;gap:17px}
+  .landing-header nav a{font-size:9px;white-space:nowrap}
+  .landing-header nav a:first-child{display:none}
+  .landing-header .logo{font-size:22px}
+  .landing-footer{grid-template-columns:1fr 1fr}
+  .landing-footer>div:nth-child(3){grid-column:1/-1}
+  .landing-intro p{font-size:clamp(46px,11vw,62px)}
+}
