@@ -57,7 +57,7 @@ header nav a:hover{text-decoration:underline;text-underline-offset:4px}
 .frame-lean{margin-top:28%}
 .frame-lean img{aspect-ratio:4/5;object-position:center 35%}
 .landing-finale{display:grid;grid-template-columns:1fr 1fr;gap:8vw;align-items:center;padding:195px 5% 185px}
-.frame-rain img{aspect-ratio:4/5;object-position:center 45%}
+.frame-night img{aspect-ratio:4/5;object-position:center 45%}
 .landing-finale-copy{max-width:520px}
 #collection{border-top:1px solid var(--line)}
 #collection .collection-intro h2{font-size:26px;font-weight:500;margin:0 0 10px;letter-spacing:-.6px}
@@ -89,7 +89,7 @@ header nav a:hover{text-decoration:underline;text-underline-offset:4px}
   .frame-seat{width:92%}
   .frame-lean{margin-top:0;width:72%;align-self:flex-end}
   .landing-finale{display:flex;flex-direction:column;gap:70px;padding:125px 5% 105px}
-  .frame-rain{width:88%;align-self:flex-start}
+  .frame-night{width:88%;align-self:flex-start}
   .landing-finale-copy{width:100%;padding-left:9%}
   #collection .collection-intro h2{font-size:24px}
 }
