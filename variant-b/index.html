@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#efeee8">
+  <meta name="description" content="MIESZKO I — urodzinowa kolekcja streetwear. Artystyczna symulacja sklepu, bez sprzedaży i płatności.">
+  <meta name="robots" content="noindex,nofollow"><title>MIESZKO I — Birthday Edition</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip" href="#catalog">Przejdź do kolekcji</a>
+  <div class="ticker" aria-label="Informacja o projekcie"><div>ONE PERSON. ONE SEASON. ONE MIESZKO. <span>✳</span> BIRTHDAY EDITION / 2026 <span>✳</span> ARTYSTYCZNA SYMULACJA SKLEPU — BEZ PŁATNOŚCI</div></div>
+  <header class="site-header">
+    <a class="wordmark" href="#top" aria-label="MIESZKO I — strona główna">MIESZKO<span>I</span><i>®</i></a>
+    <nav class="main-nav" aria-label="Nawigacja główna"><a href="#catalog">Kolekcja</a><a href="#story">Historia</a><button type="button" id="aboutButton">Info</button></nav>
+    <div class="header-actions"><button type="button" id="searchToggle" aria-label="Otwórz wyszukiwanie">SZUKAJ <span>↗</span></button><button type="button" id="cartToggle" aria-label="Otwórz koszyk">KOSZYK <span id="cartCount">(0)</span></button></div>
+  </header>
+  <main id="top">
+    <section class="hero" aria-labelledby="heroTitle">
+      <div class="hero-meta"><span>DROP 001 / 2026</span><span>WARSZAWA / GDZIEKOLWIEK</span><span>100% PREZENT</span></div>
+      <div class="hero-content"><p class="eyebrow">A NEW SEASON BEGINS</p><h1 id="heroTitle">MIESZKO<br><em>ONE.</em></h1><div class="hero-line"><p>Wybrane sylwetki. Jedna wyjątkowa historia.<br>Urodzinowa kolekcja stworzona dla Mieszka.</p><a href="#catalog">ODKRYJ KOLEKCJĘ <span>↘</span></a></div></div>
+      <div class="hero-stamp" aria-hidden="true"><span>BIRTHDAY<br>EDITION</span><b>✳</b></div>
+      <div class="hero-bottom"><span>STYLE IS PERSONAL.</span><span>SCROLL TO EXPLORE ↓</span></div>
+    </section>
+    <section class="intro-strip"><p>Nie chodzi o sezon. <strong>Chodzi o Mieszka.</strong></p><span>ARCHIVE PICKS / PERSONAL EDITION</span></section>
+    <section id="catalog" class="catalog" aria-labelledby="catalogTitle">
+      <div class="section-heading"><div><p class="eyebrow">01 / THE SELECTION</p><h2 id="catalogTitle">THE<br>LINEUP<span>✳</span></h2></div><p>20 historycznych wydań. Kadry urodzinowej kampanii są w przygotowaniu.</p></div>
+      <div class="catalog-controls"><div id="categories" class="categories" role="group" aria-label="Kategorie"></div><div class="control-right"><label class="search-field"><span class="sr-only">Szukaj produktów</span><input id="search" type="search" placeholder="Szukaj w kolekcji" autocomplete="off"><span>⌕</span></label><label class="sort-label"><span class="sr-only">Sortuj produkty</span><select id="sort"><option value="featured">Kolejność kolekcji</option><option value="newest">Rok: najnowsze</option><option value="oldest">Rok: najstarsze</option><option value="az">Nazwa: A–Z</option></select></label></div></div>
+      <div class="result-line"><span id="resultCount"></span><span>ŻADNYCH CEN. TYLKO STYL.</span></div>
+      <div id="productGrid" class="product-grid" aria-live="polite"></div>
+      <p class="catalog-note">Zdjęcia sesji Mieszka będą dodane po wykonaniu kampanii. Do tego czasu widoczne są plansze zastępcze.</p>
+    </section>
+    <section id="story" class="story"><div class="story-index">02 / FOR MIESZKO</div><div><h2>ONE OF<br><i>ONE.</i></h2><p>Wybrana dla Ciebie. Zbudowana wokół Twojego stylu. Ta kolekcja istnieje po to, żeby uczcić kolejny rozdział.</p><a href="#catalog">WRÓĆ DO KOLEKCJI ↗</a></div><div class="story-mark" aria-hidden="true">M1<span>✳</span></div></section>
+  </main>
+  <footer><div class="footer-top"><a class="footer-logo" href="#top">MIESZKO I</a><div><b>EXPLORE</b><a href="#catalog">Kolekcja</a><a href="#story">Historia</a></div><div><b>INFORMACJE</b><button type="button" data-info="about">O projekcie</button><button type="button" data-info="sizes">Rozmiary</button><button type="button" data-info="demo">Zakupy i dostawa</button></div></div><div class="footer-bottom"><span>© 2026 MIESZKO I / BIRTHDAY EDITION</span><span>ARTYSTYCZNA SYMULACJA · BEZ SPRZEDAŻY, PŁATNOŚCI I AFILIACJI Z MARKAMI</span></div></footer>
+  <dialog id="productDialog" class="product-dialog" aria-label="Szczegóły produktu"><button type="button" class="dialog-close" data-close aria-label="Zamknij szczegóły">×</button><div id="productDialogBody"></div></dialog>
+  <dialog id="cartDialog" class="cart-dialog" aria-label="Koszyk pokazowy"><button type="button" class="dialog-close" data-close aria-label="Zamknij koszyk">×</button><div id="cartDialogBody"></div></dialog>
+  <dialog id="infoDialog" class="info-dialog" aria-label="Informacje"><button type="button" class="dialog-close" data-close aria-label="Zamknij informacje">×</button><div id="infoDialogBody"></div></dialog>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script src="../products.js"></script><script src="app.js"></script>
+</body>
+</html>
